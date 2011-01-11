@@ -18,6 +18,18 @@
 	<!-- Our custom code goes here. -->
 	<script type="text/javascript" charset="utf-8">
 		
+		// We'll prepend all the channels we communicate on with this
+		// prefix so they're all unique.
+		var CHANNEL_PREFIX = "drew_";
+		
+		// This is the channel where sensors send their updated state.
+		var UPDATE_CHANNEL = "update";
+		
+		// This is channel where we can send messages back to the sensors.
+		var RESPONSE_CHANNEL = "response";
+		
+		var positions = [{"id":1, "lat":18.515505, "lon":73.85705}, {"id":2, "lat":18.511301, "lon":73.8701}, {"id":3, "lat":18.52811, "lon":73.85703}, {"id":4, "lat":18.5134, "lon":73.83702}, {"id":5, "lat":18.503502, "lon":73.85113}];
+		
 		$("document").ready(function() {
 			// All initialization code goes here. This function will execute
 			// when the browser finishes loading the page.
@@ -34,6 +46,16 @@
 			var map = new google.maps.Map(document.getElementById("map_canvas"),
 			        myOptions);
 			
+			for (var positionIndex in positions) {
+				var pos = positions[positionIndex];
+				
+				var marker = new google.maps.Marker({
+					position:new google.maps.LatLng(pos["lat"],
+						pos["lon"]),
+					map: map,
+					title: positionIndex
+				});
+			}
 		});
 		
 	</script>
