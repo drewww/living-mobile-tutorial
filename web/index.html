@@ -49,12 +49,29 @@
 			for (var positionIndex in positions) {
 				var pos = positions[positionIndex];
 				
-				var marker = new google.maps.Marker({
+				var newMarker = new google.maps.Marker({
 					position:new google.maps.LatLng(pos["lat"],
 						pos["lon"]),
 					map: map,
-					title: positionIndex
+					title: positionIndex,
+					html: "Hello! World!"
 				});
+				
+				var infowindow = new google.maps.InfoWindow({
+					content:"placeholder",
+				});
+				
+				positions[positionIndex]["marker"] = newMarker;
+				positions[positionIndex]["window"] = infowindow;
+				
+				
+				// The reason for having 'this' here is a bit tricky and 
+				// explained in some detail here:
+				// http://you.arenot.me/2010/06/29/google-maps-api-v3-0-multiple-markers-multiple-infowindows/	
+				google.maps.event.addListener(newMarker, 'click', function() {
+					infowindow.setContent(this.html);
+					infowindow.open(map,this);
+				    });
 			}
 		});
 		
