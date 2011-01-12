@@ -114,6 +114,10 @@
 				// a reference to that marker earlier, so we can get at it
 				// from here.
 				sensor["marker"].html = "likes: " + sensor["likes"] + "; people: " + sensor["people"];
+				
+				// Now, insert divs into the recent events listing.
+				$("#updates").prepend($("<div class='update'>at "+doc.time + " - Sensor " + message["id"] + " got message " + message["type"] + "</div>"));
+				
 			});
 			
 			toq.connect();
@@ -128,14 +132,27 @@
 			float: left;
 		}
 		
-		#updates {
+		#updates-container {
 			width: 200px;
 			height: 400px;
 			
 			float: left;
-			margin-left: 10px;
+			margin-left: 30px;
 			
 			border: 1px solid black;
+			overflow: hidden;
+		}
+		
+		#updates {
+			overflow: hidden;
+			height: 350px;
+		}
+		
+		.update {
+			background-color: #CCCCCC;
+			font-size: 10px;
+			padding: 5px;
+			margin: 5px;
 		}
 		
 	</style>
@@ -147,9 +164,11 @@
 
 <div id="map_canvas"></div>
 
-<div id="updates">
+<div id="updates-container">
 <h2>Recent Updates</h2>
-	
+<div id="updates">
+
+</div>
 </div>
 
 </body>
