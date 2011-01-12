@@ -23,7 +23,7 @@ var toq = (function () {
             }
             return obj;
         },
-        load: function (query, callback) {
+        subscribe: function (query, callback) {
             var k = query.split('=')[0];
             var v = query.split('=')[1];
             if (!v) v='';
@@ -31,11 +31,11 @@ var toq = (function () {
             toq.keys[k] = v;
             toq.callbacks[k] = callback;
         },
-        unload: function(room){
+        unsubscribe: function(room){
             delete toq.keys[room];
             delete toq.callbacks[room];
         },
-        save: function (key, obj, fn) {
+        write: function (key, obj, fn) {
             var d = {};
             if (typeof obj == 'string') {
                 d[key] = obj;
