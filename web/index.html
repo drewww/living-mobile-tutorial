@@ -61,7 +61,7 @@
 						sensor["lon"]),
 					map: map,
 					title: sensorIndex,
-					html: "Hello! World!"
+					html: "No updates from this sensor yet."
 				});
 				
 				var infowindow = new google.maps.InfoWindow({
@@ -100,10 +100,11 @@
 				
 				
 				var sensor = sensors[message["id"]];
-				console.log("sensor: " + sensor);
+				console.log("sensor: ");
+				console.log(sensor);
 				
 				if(message["type"]=="button") {
-					sensor["like"] = sensor["like"]+1;
+					sensor["likes"] = sensor["likes"]+1;
 				} else if (message["type"]=="motion") {
 					sensor["people"] = senspr["people"]+1;
 				}
@@ -112,7 +113,7 @@
 				// This is stored in the marker itself, but we kept
 				// a reference to that marker earlier, so we can get at it
 				// from here.
-				sensor["marker"].html = "likes: " + sensor["like"] + "; people: " + sensor["people"];
+				sensor["marker"].html = "likes: " + sensor["likes"] + "; people: " + sensor["people"];
 			});
 			
 			toq.connect();
