@@ -82,11 +82,11 @@ var toq = (function () {
             }
                         if (doc.key in toq.keys) toq.keys[doc.key] = doc.rev + 1 +':';
                     }
-                    toq.timeout = setTimeout(toq.update, 300);
+                    toq.timeout = setTimeout(toq.connect, 300);
                 },
                 dataType: 'json',
                 error: function (req, status, e) {
-                    toq.timeout = setTimeout(toq.update, 300);
+                    toq.timeout = setTimeout(toq.connect, 300);
                 }
             });
         }
