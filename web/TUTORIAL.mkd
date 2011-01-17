@@ -94,8 +94,38 @@ The console.log function is tricky - if it senses an object, it will actually gi
 Networking & the DOM
 --------------------
 
-Now it's time to start thinking about how to update the page in response to messages from the sensors. 
+Now it's time to start thinking about how to update the page in response to messages from the sensors. Basically, we're going to write a function that runs every time we get a message from the server. We're going to use a system called Toqbot to handle these messages. 
+
+You can think of Toqbot as, basically, a series of chatrooms. Each room has a name, and you can tell the system to call a particular function every time someone says something in the chat room. 
 
 Since you don't actually have an Arduino board with you, we're going to fake the messages from the sensors using a test page:
 
 http://toqbot.com/india/student/<TEAM NAME>/sensors.html
+	
+We need to tell it what the name of your room is, though. Open up the sensors.html file and look for "CHANNEL_PREFIX" and set that to <TEAM NAME> so you have a channel that's used only by your team. Otherwise, your messages will be colliding with other teams' messages.
+
+Now, jump back to your main page. Add this code in to your main document.ready() function.
+
+ toq.subscribe("<TEAM NAME>" + "_update", function(doc) {
+ 	// This function gets executed every time there is a message
+ 	// on the specified channel.
+ 	//doc is a "document" object that captures current state of 
+ 	//		the key/value
+ 	//doc.key = 'drewtest'
+ 	//doc.time = the server time stamp
+ 	//doc.rev = the revision number
+ 	//doc.user = a unique string for each user
+ 	//		(based on a cookie value)
+ 	//doc.data = the actual value update
+ 	var message = eval("(" + doc.data + ")");
+ 
+ 	// Your code goes here!
+ });
+
+This function runs every time you get a message. Try it out now - add a console.log message in the function, then load up the sensors.html page and press the buttons - every time you press a button, you should see a message in the logs of your index.html page. You can also look at recent messages on the channel directly by going to:
+
+http://toqbot.com/<TEAM NAME>_update
+	
+You can post messages there, too, using the text field at the bottom. This is a nice way to make sure message are getting through properly.
+
+Now that network is all hooked up, it's time to make something happen on the page when you get a message!
