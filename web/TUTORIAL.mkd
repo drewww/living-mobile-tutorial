@@ -151,3 +151,47 @@ You're going to want to use jQuery's append method to do this. The jQuery librar
 
     http://api.jquery.com/append/
 
+You might also need to use jQuery's main multi-purpose function $(). You can use it for lots of things, but the two purposes you'll likely need are:
+
+	1. $("foo") returns the HTML element with the id "foo"
+	2. $("<div>hello!</div>") creates an HTML element from the string, that you can then append to, or append it to some other HTML object. For instance, something turned by $("foo").
+	
+You can read about it here:
+
+    http://api.jquery.com/jQuery/
+    look for jQuery( selector, [ context ] ) and jQuery( html, [ ownerDocument ])
+
+Once you can add a `<div>` in response to each message, try changing the color and making it look good by adding a margin and a border and a background color. You'll need to learn about "CSS selectors" plus classes and ids in HTML to make this work. Look at my solution page to get a sense of how you should make it look.
+
+
+Updating The Map
+----------------
+
+Now that we're responding properly to data, it's time to get back to the map.
+
+First, you should figure out how to make the markers jump when you get a message from the appropriate sensor. You can read about how to make animations happen here:
+
+    http://code.google.com/apis/maps/documentation/javascript/overlays.html#MarkerAnimations
+
+You might have trouble getting them to STOP bouncing. You can use "setTimeout" to help with that.
+
+Next, we want a little window to appear when you click on the marker that tells you how many time we've gotten each kind of message from that sensor. This is handled largely by the GoogleMaps API itself, and you can read that section here:
+
+    http://code.google.com/apis/maps/documentation/javascript/overlays.html#InfoWindows
+
+The tricky part is going to keeping track of how many of each kind of message you've received (you're going to want to create a data structure for that - either a list or a dictionary) and updating the InfoWindow appropriately. This is much harder than anything else you've had to do so far, so don't worry if you get stuck. This blog post might be helpful:
+
+    http://you.arenot.me/2010/06/29/google-maps-api-v3-0-multiple-markers-multiple-infowindows/
+
+You should try decomposing the problem into steps. Start by making sure you can accumulate the number of button presses associated with each sensor id. Then get an empty infowindow to appear when you click. Then try to put the right data into the right infowindow.
+
+Done!
+-----
+
+And that's it! You're done!
+
+If you got done quickly, here are some bonus tasks you can take on:
+
+	- Color the messages in the recent-event window based on what type they are. 
+	- If an infowindow is open when a message comes in, it doesn't update its text. See if you can figure out how to make that happen.
+	- Think about how you would send a message back to the arduino. Look into the <button> object that triggers a message (using console.log) whenever you press it. Then try using toq.write(CHANNEL_NAME, MESSAGE) to write a message to your communication channel.
