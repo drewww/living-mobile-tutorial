@@ -128,6 +128,8 @@ Now, jump back to your main page. Add this code in to your main document.ready()
     
     	// Your code goes here!
     });
+    
+    toq.connect();
 
 This function runs every time you get a message. Try it out now - add a console.log message in the function, then load up the sensors.html page and press the buttons - every time you press a button, you should see a message in the logs of your index.html page. You can also look at recent messages on the channel directly by going to:
 
