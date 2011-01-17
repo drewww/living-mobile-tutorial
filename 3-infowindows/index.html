@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title>Living Mobile Tutorial</title>
+	<!-- Load jquery from the google CDN. -->
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+
+	<!-- Load the jquery cookie library. -->
+	<script src="lib/jquery.cookie.js" type="text/javascript">
+	</script>
+	
+	<!-- Load the toqbot library. -->
+	<script src="lib/toq-lib.js" type="text/javascript">
+	</script>
+	
+	<!-- Load the google maps library. -->
+	<script type="text/javascript"
+	    src="http://maps.google.com/maps/api/js?sensor=false">
+	</script>
+	
+	<!-- Our custom code goes here. -->
+	<script type="text/javascript" charset="utf-8">
+		
+		// We'll prepend all the channels we communicate on with this
+		// prefix so they're all unique.
+		var CHANNEL_PREFIX = "drew_";
+		
+		// This is the channel where sensors send their updated state.
+		var UPDATE_CHANNEL = "update";
+		
+		// This is channel where we can send messages back to the sensors.
+		var RESPONSE_CHANNEL = "response";
+		
+		var sensors = [{"id":0, "lat":18.515505, "lon":73.85705}, {"id":1, "lat":18.511301, "lon":73.8701}, {"id":2, "lat":18.52811, "lon":73.85703}, {"id":3, "lat":18.5134, "lon":73.83702}, {"id":4, "lat":18.503502, "lon":73.85113}];
+		
+		$("document").ready(function() {
+			// All initialization code goes here. This function will execute
+			// when the browser finishes loading the page.
+			
+			// lat/long for pune
+			var puneLatLng = new google.maps.LatLng(18.515505, 73.85705);
+			
+			var myOptions = {
+			      zoom: 14,
+			      center: puneLatLng,
+			      mapTypeId: google.maps.MapTypeId.ROADMAP
+			};
+			
+			var map = new google.maps.Map(document.getElementById("map_canvas"),
+			        myOptions);
+			
+			for (var sensorIndex in sensors) {
+				var sensor = sensors[sensorIndex];
+				
+				sensor["likes"] = 0;
+				sensor["people"] = 0;
+				
+				var newMarker = new google.maps.Marker({
+					position:new google.maps.LatLng(sensor["lat"],
+						sensor["lon"]),
+					map: map,
+					title: sensorIndex,
+					html: "No updates from this sensor yet."
+				});
+				
+				var infowindow = new google.maps.InfoWindow({
+					content:"placeholder",
+				});
+				
+				// The reason for having 'this' here is a bit tricky and 
+				// explained in some detail here:
+				// http://you.arenot.me/2010/06/29/google-maps-api-v3-0-multiple-markers-multiple-infowindows/	
+				google.maps.event.addListener(newMarker, 'click', function() {
+					infowindow.setContent(this.html);
+					infowindow.open(map,this);
+				    });
+				
+			}
+			
+			// Now, subscribe to the toqbot channel to get messages.
+			console.log("About to subscribe to " + CHANNEL_PREFIX + UPDATE_CHANNEL);
+			toq.subscribe(CHANNEL_PREFIX+UPDATE_CHANNEL, function(doc) {
+				console.log("Received message: " + doc.data);
+				// This function gets executed every time there is a message
+				// on the specified channel.
+				//doc is a "document" object that captures current state of 
+				//		the key/value
+				//doc.key = 'drewtest'
+				//doc.time = the server time stamp
+				//doc.rev = the revision number
+				//doc.user = a unique string for each user
+				//		(based on a cookie value)
+				//doc.data = the actual value update
+				var message = eval("(" + doc.data + ")");
+				
+				var sensor = sensors[message["id"]];
+				console.log("sensor: ");
+				console.log(sensor);
+				
+				// Now, insert divs into the recent events listing.
+				$("#updates").prepend($("<div class='update'>at "+doc.time + " - Sensor " + message["id"] + " got message " + message["type"] + "</div>"));
+			
+				sensor["marker"].setAnimation(google.maps.Animation.BOUNCE);
+				setTimeout(function() {
+					sensor["marker"].setAnimation(null);
+				}, 100);
+			});
+			
+			toq.connect();
+		});
+		
+	</script>
+	
+	<style type="text/css" media="screen">
+		#map_canvas {
+			width: 600px;
+			height: 400px;
+			float: left;
+		}
+		
+		#updates-container {
+			width: 200px;
+			height: 400px;
+			
+			float: left;
+			margin-left: 30px;
+			
+			border: 1px solid black;
+			overflow: hidden;
+		}
+		
+		#updates {
+			overflow: hidden;
+			height: 350px;
+		}
+		
+		.update {
+			background-color: #CCCCCC;
+			font-size: 10px;
+			padding: 5px;
+			margin: 5px;
+		}
+		
+	</style>
+	
+</head>
+<body id="index">
+<h1>Living Mobile Tutorial</h1>
+
+
+<div id="map_canvas"></div>
+
+<div id="updates-container">
+<h2>Recent Updates</h2>
+<div id="updates">
+
+</div>
+</div>
+
+</body>
+
+</html>

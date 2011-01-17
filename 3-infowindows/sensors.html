@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title>Living Mobile Tutorial / Sensors</title>
+	
+	<!-- Load jquery from the google CDN. -->
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+
+	<!-- Load the jquery cookie library. -->
+	<script src="jquery.cookie.js" type="text/javascript">
+	</script>
+	
+	<!-- Load the toqbot library. -->
+	<script src="toq-lib.js" type="text/javascript">
+	</script>
+	
+	
+	<!-- Our custom code goes here. -->
+	<script type="text/javascript" charset="utf-8">
+		
+		// We'll prepend all the channels we communicate on with this
+		// prefix so they're all unique.
+		var CHANNEL_PREFIX = "drew_";
+		
+		// This is the channel where sensors send their updated state.
+		var UPDATE_CHANNEL = "update";
+		
+		// This is channel where we can send messages back to the sensors.
+		var RESPONSE_CHANNEL = "response";
+		
+		$("document").ready(function() {
+
+		});
+		
+		function button(id) {
+			// send a button pressed event
+			toq.write(CHANNEL_PREFIX + UPDATE_CHANNEL, {"id":id, "type":"button"});
+		}
+		
+		function motion(id) {
+			toq.write(CHANNEL_PREFIX + UPDATE_CHANNEL, {"id":id, "type":"motion"});
+		}
+		
+	</script>
+	
+	<style type="text/css" media="screen">
+		.sensor {
+			float: left;
+			width: 300px;
+			border: 1px solid black;
+			margin: 10px;
+			padding: 10px;
+		}
+		
+		.sensor h2 {
+			margin-top: 0px;
+		}
+	
+	</style>
+	
+</head>
+<body id="index">
+<h1>Living Mobile Tutorial / Sensors</h1>
+<div>You can use this page to generate fake events from the sensors.</div>
+
+
+<div class="sensor">
+<h2>Sensor 0</h2>
+<input type="button" name="" value="BUTTON" id="BUTTON_0" onclick="button(0);">
+<input type="button" name="" value="MOTION" id="MOTION_0" onclick="motion(0);">
+</div>
+
+<div class="sensor">
+<h2>Sensor 1</h2>
+<input type="button" name="" value="BUTTON" id="BUTTON_1" onclick="button(1);">
+<input type="button" name="" value="MOTION" id="MOTION_1" onclick="motion(1);">
+</div>
+
+<div class="sensor">
+<h2>Sensor 2</h2>
+<input type="button" name="" value="BUTTON" id="BUTTON_2" onclick="button(2);">
+<input type="button" name="" value="MOTION" id="MOTION_2" onclick="motion(2);">
+</div>
+
+<div class="sensor">
+<h2>Sensor 3</h2>
+<input type="button" name="" value="BUTTON" id="BUTTON_3" onclick="button(3);">
+<input type="button" name="" value="MOTION" id="MOTION_3" onclick="motion(3);">
+</div>
+
+<div class="sensor">
+<h2>Sensor 4</h2>
+<input type="button" name="" value="BUTTON" id="BUTTON_4" onclick="button(4);">
+<input type="button" name="" value="MOTION" id="MOTION_4" onclick="motion(4);">
+</div>
+
+	
+</div>
+
+</body>
+
+</html>
