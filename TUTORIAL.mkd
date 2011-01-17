@@ -101,7 +101,7 @@ The console.log function is tricky - if it senses an object, it will actually gi
 Networking
 ----------
 
-Now it's time to start thinking about how to update the page in response to messages from the sensors. Basically, we're going to write a function that runs every time we get a message from the server. We're going to use a system called Toqbot to handle these messages. 
+Now it's time to start thinking about how to update the page in response to messages from the sensors. Basically, we're going to write a function that runs every time we get a message from the server. We're going to use a system called Toqbot to handle these messages. If you had trouble with the previous section, you can grab the 'networking' version of the code and have a fresh version of the code that is at this point in the tutorial.
 
 You can think of Toqbot as, basically, a series of chatrooms. Each room has a name, and you can tell the system to call a particular function every time someone says something in the chat room. 
 
